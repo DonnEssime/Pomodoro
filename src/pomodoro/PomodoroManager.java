@@ -15,10 +15,17 @@ public class PomodoroManager implements Runnable {
         Thread t = new Thread(ui);
         t.start();
         
-        while(true)
+        while(!Thread.currentThread().isInterrupted())
         {
-            //handle management choices
-            //none so far!
+            
         }
+        
+        t.interrupt();
+        try {
+            t.join();
+        } catch (InterruptedException ex) {
+            System.out.println("Manager interrupted again while waiting for the UI to shut down!");
+        }
+        System.out.println("Manager shutting down!");
     }
 }
