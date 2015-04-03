@@ -24,7 +24,6 @@ public class PomodoroMainFrame implements Runnable {
     @Override
     public void run()
     {
-        System.out.println("Mainframe starting up");
         ThreadGroup tg = new ThreadGroup("Pomodoro main group");
         Thread t = new Thread(tg, mgr);
         t.start();
@@ -33,6 +32,5 @@ public class PomodoroMainFrame implements Runnable {
         } catch (InterruptedException ex) {
             t.interrupt();
         }
-        System.out.println("MainFrame stopping.");
     }
 }

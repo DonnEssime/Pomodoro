@@ -9,7 +9,6 @@ import java.util.LinkedList;
 public class PomodoroUI extends Frame implements Runnable {
     private static javax.swing.ImageIcon icon = Util.getIconImage("/ui/icon.png");
     private final PomodoroManager mgr;
-    private boolean running = false;
     private final List<Widget> children;
     private Thread t;
     
@@ -26,11 +25,7 @@ public class PomodoroUI extends Frame implements Runnable {
 	addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                t.interrupt();
-                try {
-                    t.join();
-                } catch (InterruptedException ex) {
-                }
+                PomodoroUI.this.mgr.shutdown();
                 System.exit(0);
             }
         });
@@ -39,14 +34,10 @@ public class PomodoroUI extends Frame implements Runnable {
         
     @Override
     public void run() {
-        running = true;
-        System.out.println("UI starting up");
         this.t = Thread.currentThread();
         while(!Thread.currentThread().isInterrupted())
         {
             
         }
-        System.out.println("UI stopping up");
     }
-    
 }

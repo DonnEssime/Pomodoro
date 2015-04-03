@@ -2,30 +2,33 @@ package pomodoro;
 
 public class PomodoroManager implements Runnable {
     private PomodoroUI ui;
+    private Thread t;
     
     public PomodoroManager()
     {
         ui = new PomodoroUI(this);
     }
     
+    public void shutdown()
+    {
+        t.interrupt();
+    }
+    
     @Override
     public void run()
     {
-        System.out.println("Manager starting up");
-        Thread t = new Thread(ui);
-        t.start();
-        
+        Thread uit = new Thread(ui);
+        uit.start();
+        this.t = Thread.currentThread();
         while(!Thread.currentThread().isInterrupted())
         {
             
         }
         
-        t.interrupt();
+        uit.interrupt();
         try {
-            t.join();
+            uit.join();
         } catch (InterruptedException ex) {
-            System.out.println("Manager interrupted again while waiting for the UI to shut down!");
         }
-        System.out.println("Manager shutting down!");
     }
 }
