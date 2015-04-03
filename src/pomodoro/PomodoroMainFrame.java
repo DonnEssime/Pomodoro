@@ -3,6 +3,7 @@ package pomodoro;
 
 public class PomodoroMainFrame implements Runnable {
     private PomodoroManager mgr;
+    public static final int fps = 20;
     
     public PomodoroMainFrame()
     {
