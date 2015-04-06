@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import pomodoro.Util;
 
 public class Label extends Widget{
-    private String text;
+    private String text, dtext;
     private int textsize;
     private BufferedImage rendered;
     
@@ -20,6 +20,7 @@ public class Label extends Widget{
     {
         super(p);
         this.text = text;
+        this.dtext = text;
         this.textsize = size;
         renderText();
     }
@@ -37,6 +38,10 @@ public class Label extends Widget{
     {
         rendered = Util.renderText(text,textsize);
         this.sz = new Dimension(rendered.getWidth(),rendered.getHeight());
+    }
+    public void resetText()
+    {
+        changeText(dtext);
     }
     @Override
     public void draw(Graphics g)

@@ -25,8 +25,16 @@ public class Button extends Widget {
         this.sz = new Dimension(imgs[0].getWidth(),imgs[0].getHeight());
     }
     
-    public void activated(){}
-    public void deactivated(){}
+    public void activation_action(){}
+    public final void activate(){
+        this.state = ButtonState.ACTIVE;
+        activation_action();
+    }
+    public void deactivation_action(){}
+    public final void deactivate(){
+        this.state = ButtonState.INACTIVE;
+        deactivation_action();
+    }
     
     @Override
     public void draw(Graphics g)
@@ -39,11 +47,11 @@ public class Button extends Widget {
     {
         if(this.state == ButtonState.CLICKING_ACTIVE)   
         {
-            this.state = ButtonState.INACTIVE;
+            deactivate();
         }
         else if(this.state == ButtonState.CLICKING_INACTIVE)   
         {
-            this.state = ButtonState.ACTIVE;
+            activate();
         }
         return true;
     }

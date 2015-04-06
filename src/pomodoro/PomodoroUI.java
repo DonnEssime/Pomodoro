@@ -7,6 +7,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import pomodoro.ui.Label;
@@ -17,6 +20,10 @@ public final class PomodoroUI extends JPanel implements Runnable {
     private final PomodoroManager mgr;
     private final JFrame container;
     private final RootWidget root;
+    private final List<Timer> timers;
+    
+    private Button sbtn;
+    private Label  tlbl;
     
     public PomodoroUI(PomodoroManager mgr)
     {
@@ -59,14 +66,35 @@ public final class PomodoroUI extends JPanel implements Runnable {
                 root.mouseup(e.getButton(),e.getPoint());
             }
         });
+        this.timers = new ArrayList<Timer>();
         
         container.add(this);
     }
   
     private void init()
     {
-        root.addChild(new Button(new Point(256,112),"/ui/startbutton"));
-        root.addChild(new Label(new Point(256,40),"25:00",48));
+        root.addChild(tlbl=new Label(new Point(256,40),"25:00",48));
+        root.addChild(sbtn=new Button(new Point(256,112),"/ui/startbutton"){
+            @Override
+            public void activation_action()
+            {
+                timers.add(new Timer(5*1000){
+                    @Override
+                    public void tick_action() {
+                        tlbl.changeText(String.format("%02d:%02d", (int) Math.floor(togo/1000/60), (int) ((togo/1000) % 60)));
+                    }
+                    @Override
+                    public void stop_action() {
+                        sbtn.deactivate();
+                    }
+                });
+            }
+            @Override
+            public void deactivation_action()
+            {
+                tlbl.resetText();
+            }
+        });
     }
     
     @Override
@@ -81,6 +109,14 @@ public final class PomodoroUI extends JPanel implements Runnable {
         this.init();
         while(!Thread.currentThread().isInterrupted())
         {
+            Iterator<Timer> ts = timers.iterator();
+            while(ts.hasNext())
+            {
+                Timer t = ts.next();
+                if(t.tick())
+                    ts.remove();
+            }
+                    
             this.repaint();
             try {
                 Thread.sleep(1000/PomodoroMainFrame.fps);
