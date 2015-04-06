@@ -32,28 +32,11 @@ public class PomodoroManager implements Runnable {
     
     public void playAudio(String name, final boolean loop)
     {
-        final Clip c = Util.getAudioClip(name);
-        if(playing == null)
-        {
-            c.loop(loop?Clip.LOOP_CONTINUOUSLY:1);
-            playing = c;
-        }
-        else
-        {
+        if(playing != null)
             playing.close();
-            (new Thread(){
-                @Override
-                public void run() {
-                    while(playing != null)
-                        try {
-                            Thread.sleep((int) (1000/PomodoroMainFrame.mgrfps));
-                        } catch (InterruptedException ex) {}
-                    
-                    c.loop(loop?Clip.LOOP_CONTINUOUSLY:0);
-                    playing = c;
-                }
-            }).start();
-        }
+        
+        playing = Util.getAudioClip(name);
+        playing.loop(loop?Clip.LOOP_CONTINUOUSLY:0);
     }
     
     @Override
@@ -70,10 +53,6 @@ public class PomodoroManager implements Runnable {
                 Timer t = ts.next();
                 if(t.tick())
                     ts.remove();
-            }
-            if(playing != null && !playing.isOpen())
-            {
-                playing = null;
             }
             try {
                 Thread.sleep(1000/PomodoroMainFrame.mgrfps);
