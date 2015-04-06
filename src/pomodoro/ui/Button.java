@@ -31,7 +31,7 @@ public class Button extends Widget {
     @Override
     public void draw(Graphics g)
     {
-        g.drawImage(imgs[state.ordinal()],loc.x,loc.y,null);
+        g.drawImage(imgs[state.ordinal()],0,0,null);
     }
     
     @Override

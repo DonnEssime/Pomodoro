@@ -33,8 +33,8 @@ public abstract class Widget {
         for(Widget w : children)
         {
             Graphics lg = g.create();
-            lg.translate(loc.x, loc.y);
-            lg.clipRect(0,0,sz.width,sz.height);
+            lg.translate(w.loc.x, w.loc.y);
+            lg.clipRect(0,0,w.sz.width,w.sz.height);
             w.draw(lg);
         }
     }
@@ -42,7 +42,7 @@ public abstract class Widget {
     {
         for(Widget w : children)
         {
-            if(w.intersects(location) && w.mouseup(button,new Point(location.x-w.loc.x,location.y-w.loc.y)))
+            if(w.intersects(location) && w.mousedown(button,new Point(location.x-w.loc.x,location.y-w.loc.y)))
                 return true;
         }
         return false;
@@ -70,4 +70,8 @@ public abstract class Widget {
         boolean iy = p.y >= loc.y && p.y <= loc.y+sz.height;
         return ix && iy;
     };
+    public void addChild(Widget w)
+    {
+        children.add(w);
+    }
 }
