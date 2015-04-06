@@ -70,10 +70,11 @@ public final class PomodoroUI extends JPanel implements Runnable {
     {
         root.addChild(tlbl=new Label(new Point(256,40),Util.getTimeString(mgr.timer_length),48));
         root.addChild(sbtn=new Button(new Point(256,112),"ui/startbutton"){
+            private Timer t;
             @Override
             public void activation_action()
             {
-                mgr.addTimer(new Timer(mgr.timer_length*1000){
+                mgr.addTimer(t=new Timer(mgr.timer_length*1000){
                     @Override
                     public void tick_action() {
                         tlbl.changeText(Util.getTimeString((int) (togo/1000)));
@@ -89,6 +90,7 @@ public final class PomodoroUI extends JPanel implements Runnable {
             public void deactivation_action()
             {
                 tlbl.resetText();
+                t.interrupt();
                 mgr.playAudio("sfx/alarm",false);
             }
         });
