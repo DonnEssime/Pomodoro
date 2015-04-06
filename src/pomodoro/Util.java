@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -48,6 +49,9 @@ public abstract class Util {
         Graphics2D g = ret.createGraphics();
         g.setColor(Color.DARK_GRAY);
         g.setFont(f);
+        g.setRenderingHint(
+            RenderingHints.KEY_TEXT_ANTIALIASING,
+            RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
         g.drawString(text, 1, ret.getHeight()-1);
         g.dispose();
         return ret;
