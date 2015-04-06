@@ -20,7 +20,6 @@ public final class PomodoroUI extends JPanel implements Runnable {
     private final PomodoroManager mgr;
     private final JFrame container;
     private final RootWidget root;
-    private final List<Timer> timers;
     
     private Button sbtn;
     private Label  tlbl;
@@ -66,7 +65,6 @@ public final class PomodoroUI extends JPanel implements Runnable {
                 root.mouseup(e.getButton(),e.getPoint());
             }
         });
-        this.timers = new ArrayList<Timer>();
         
         container.add(this);
     }
@@ -78,7 +76,7 @@ public final class PomodoroUI extends JPanel implements Runnable {
             @Override
             public void activation_action()
             {
-                timers.add(new Timer(5*1000){
+                mgr.addTimer(new Timer(5*1000){
                     @Override
                     public void tick_action() {
                         tlbl.changeText(String.format("%02d:%02d", (int) Math.floor(togo/1000/60), (int) ((togo/1000) % 60)));
@@ -108,15 +106,7 @@ public final class PomodoroUI extends JPanel implements Runnable {
     public void run() {
         this.init();
         while(!Thread.currentThread().isInterrupted())
-        {
-            Iterator<Timer> ts = timers.iterator();
-            while(ts.hasNext())
-            {
-                Timer t = ts.next();
-                if(t.tick())
-                    ts.remove();
-            }
-                    
+        {                    
             this.repaint();
             try {
                 Thread.sleep(1000/PomodoroMainFrame.fps);
