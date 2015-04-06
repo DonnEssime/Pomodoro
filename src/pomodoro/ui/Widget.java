@@ -3,7 +3,6 @@ package pomodoro.ui;
 import java.awt.Point;
 import java.awt.Graphics;
 import java.awt.Dimension;
-import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.LinkedList;
 

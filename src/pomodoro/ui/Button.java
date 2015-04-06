@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.awt.Point;
-import java.awt.event.MouseEvent;
 import pomodoro.Util;
 
 public class Button extends Widget {

@@ -3,8 +3,6 @@ package pomodoro;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sound.sampled.Clip;
 
 public class PomodoroManager implements Runnable {
@@ -12,7 +10,7 @@ public class PomodoroManager implements Runnable {
     private Thread t;
     private final List<Timer> timers;
     private Clip playing;
-    public final int timer_length=5;
+    public final int timer_length=25*60;
     
     public PomodoroManager()
     {
