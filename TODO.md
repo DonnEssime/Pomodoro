@@ -1,5 +1,7 @@
-# A todo-list for me
+# A todo-list for myself
 
-This is the series of short-term next steps:
-- mouse handling in the UI framework
-- playing sound
+Nicer interface:
+	- Slick buttons!
+	- Polished menus!
+	- Setting volume
+	- Setting length of timer
