@@ -1,5 +1,7 @@
 package pomodoro;
 
+import pomodoro.ui.Widget;
+import pomodoro.ui.Button;
 import java.awt.Point;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;

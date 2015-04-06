@@ -1,4 +1,4 @@
-package pomodoro;
+package pomodoro.ui;
 
 import java.awt.Point;
 import java.awt.Graphics;
