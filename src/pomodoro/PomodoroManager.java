@@ -22,7 +22,11 @@ public class PomodoroManager implements Runnable {
         this.t = Thread.currentThread();
         while(!Thread.currentThread().isInterrupted())
         {
-            
+            try {
+                Thread.sleep(1000/PomodoroMainFrame.fps);
+            } catch (InterruptedException ex) {
+                
+            }
         }
         
         uit.interrupt();
