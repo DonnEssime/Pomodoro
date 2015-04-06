@@ -9,19 +9,27 @@ import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.ImageIcon;
 
 public abstract class Util {
     private static Toolkit toolkit = Toolkit.getDefaultToolkit();
-    public static java.net.URL getResourceURL(String name)
+    public static URL getResourceURL(String name)
     {
-        return PomodoroMainFrame.class.getResource(name);
+        return PomodoroMainFrame.class.getResource("/"+name);
     }
-    public static javax.swing.ImageIcon getIconImage(String name)
+    public static ImageIcon getIconImage(String name)
     {
-        return new javax.swing.ImageIcon(getResourceURL(name+".png"));
+        return new ImageIcon(getResourceURL(name+".png"));
     }
-    public static java.awt.image.BufferedImage getImage(String name)
+    public static BufferedImage getImage(String name)
     {
         try {
             return ImageIO.read(getResourceURL(name+".png"));
@@ -29,7 +37,23 @@ public abstract class Util {
             return null;
         }
     }
+    public static Clip getAudioClip(String name)
+    {
+        AudioInputStream is = null;
+        try {
+            is = AudioSystem.getAudioInputStream(getResourceURL(name+".wav"));
+            Clip ret = AudioSystem.getClip();
+            ret.open(is);
+            return ret;
+        } catch (Exception e) {
+            return null;
+        }
+    }
     
+    public static String getTimeString(int seconds)
+    {
+        return String.format("%02d:%02d", (int) Math.floor(seconds/60), (int) ((seconds) % 60));
+    }
     private static Font default_font;
     static {
         default_font = new Font("Trebuchet MS", Font.PLAIN, 12);

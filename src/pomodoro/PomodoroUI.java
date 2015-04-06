@@ -7,16 +7,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import pomodoro.ui.Label;
 import pomodoro.ui.RootWidget;
 
 public final class PomodoroUI extends JPanel implements Runnable {
-    private static javax.swing.ImageIcon icon = Util.getIconImage("/ui/icon");
+    private static javax.swing.ImageIcon icon = Util.getIconImage("ui/icon");
     private final PomodoroManager mgr;
     private final JFrame container;
     private final RootWidget root;
@@ -71,26 +68,28 @@ public final class PomodoroUI extends JPanel implements Runnable {
   
     private void init()
     {
-        root.addChild(tlbl=new Label(new Point(256,40),"25:00",48));
-        root.addChild(sbtn=new Button(new Point(256,112),"/ui/startbutton"){
+        root.addChild(tlbl=new Label(new Point(256,40),Util.getTimeString(mgr.timer_length),48));
+        root.addChild(sbtn=new Button(new Point(256,112),"ui/startbutton"){
             @Override
             public void activation_action()
             {
-                mgr.addTimer(new Timer(5*1000){
+                mgr.addTimer(new Timer(mgr.timer_length*1000){
                     @Override
                     public void tick_action() {
-                        tlbl.changeText(String.format("%02d:%02d", (int) Math.floor(togo/1000/60), (int) ((togo/1000) % 60)));
+                        tlbl.changeText(Util.getTimeString((int) (togo/1000)));
                     }
                     @Override
                     public void stop_action() {
                         sbtn.deactivate();
                     }
                 });
+                mgr.playAudio("sfx/tick",true);
             }
             @Override
             public void deactivation_action()
             {
                 tlbl.resetText();
+                mgr.playAudio("sfx/alarm",false);
             }
         });
     }
